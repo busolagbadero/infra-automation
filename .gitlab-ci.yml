@@ -58,7 +58,7 @@ deploy:
     - terraform apply -input=false "planfile"
     - aws eks update-kubeconfig --name my-eks --region us-east-1
     - mkdir -p $HOME/.kube
-    - cp /root/.kube/config $HOME/.kube/config
+    - cp ~/.kube/config $HOME/.kube/config
   artifacts:
     paths:
       - $HOME/.kube/config
