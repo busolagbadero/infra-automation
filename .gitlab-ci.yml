@@ -56,10 +56,10 @@ deploy:
   stage: deploy
   script:
     - terraform apply -input=false "planfile"
-    - aws eks update-kubeconfig --name my-eks --region us-east-1
-    - mkdir -p $HOME/.kube
-    - cp ~/.kube/config $HOME/.kube/config
+    - aws eks update-kubeconfig --name my-eks --region us-east-1 --kubeconfig kubeconfig.yaml
+    - mkdir -p artifacts
+    - cp kubeconfig.yaml artifacts/
   artifacts:
     paths:
-      - $HOME/.kube/config
+      - artifacts/kubeconfig.yaml
   when: manual
