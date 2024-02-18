@@ -1,0 +1,59 @@
+stages:
+  - init
+  - test
+  - build
+  - deploy
+
+image:
+  name: hashicorp/terraform:latest
+  entrypoint: [""]
+
+variables:
+  AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+  AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+  AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+
+  TF_VAR_env_prefix: "dev"
+  TF_VAR_runner_registration_token: $runner_registration_token
+
+init:
+  stage: init
+  script:
+    - terraform init
+  artifacts:
+    paths:
+      - .terraform/
+      - .terraform.lock.hcl
+
+validate:
+  stage: test
+  script:
+    - terraform validate
+  allow_failure: true
+
+tfsec:
+  stage: test
+  image:
+    name: aquasec/tfsec:latest
+    entrypoint: [ "" ] 
+  script:
+    - tfsec . --format json --out tfsec.json  
+  allow_failure: true
+  artifacts:
+    when: always
+    paths:
+      - tfsec.json
+
+build:
+  stage: build
+  script:
+    - terraform plan -out "planfile"
+  artifacts:
+    paths:
+      - planfile
+
+deploy:
+  stage: deploy
+  script:
+    - terraform apply -input=false "planfile"
+  when: manual
