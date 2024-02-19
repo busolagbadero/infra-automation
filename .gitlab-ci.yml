@@ -54,7 +54,6 @@ build:
 
 deploy:
   stage: deploy
-  image: amazon/aws-cli
   script:
     - terraform apply -input=false "planfile"
     - aws eks update-kubeconfig --name my-eks --region us-east-1 --kubeconfig kubeconfig.yaml
@@ -67,6 +66,8 @@ deploy:
 
 aws:
   stage: deploy
+  needs:
+    - deploy
   image: amazon/aws-cli
   script:
     - aws eks update-kubeconfig --name my-eks --region us-east-1 --kubeconfig kubeconfig.yaml
