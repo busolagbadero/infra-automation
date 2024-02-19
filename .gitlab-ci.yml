@@ -63,3 +63,5 @@ deploy:
     paths:
       - artifacts/kubeconfig.yaml
   when: manual
+
+  #
