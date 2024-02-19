@@ -55,8 +55,16 @@ build:
       - planfile
 
 
+deploy_terraform:
+  stage: deploy
+  script: 
+    - terraform apply -input=false "planfile"
+
+
 Docker:
   stage: deploy
+  needs:
+    - deploy_terraform
   image: docker:24
   services:
     - docker:24-dind
@@ -74,7 +82,6 @@ deploy:
   services:
     - docker:24-dind
   script: 
-    - terraform apply -input=false "planfile"
     - aws eks update-kubeconfig --name my-eks --region us-east-1 --kubeconfig kubeconfig.yaml
     - mkdir -p artifacts
     - cp kubeconfig.yaml artifacts/
