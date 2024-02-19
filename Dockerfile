@@ -11,7 +11,7 @@ RUN apk --no-cache add \
 
 # Install AWS CLI
 RUN pip3 install --no-cache-dir --upgrade pip \
-    && pip3 install --no-cache-dir awscli
+    && pip3 install --no-cache-dir awscli --break-system-packages
 
 # Install kubectl
 RUN curl -LO https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl \
