@@ -33,6 +33,8 @@ validate:
 
 tfsec:
   stage: test
+  needs:
+    - validate
   image:
     name: aquasec/tfsec:latest
     entrypoint: [ "" ] 
@@ -52,18 +54,15 @@ build:
     paths:
       - planfile
 
+
+
 deploy:
   stage: deploy
-  script:
+  image: my-aws-kubectl-image
+  before_script:
+    docker build -t my-aws-kubectl-image .
+  script: 
     - terraform apply -input=false "planfile"
-  
-
-aws:
-  stage: deploy
-  needs:
-    - deploy
-  image: amazon/aws-cli
-  script:
     - aws eks update-kubeconfig --name my-eks --region us-east-1 --kubeconfig kubeconfig.yaml
     - mkdir -p artifacts
     - cp kubeconfig.yaml artifacts/
