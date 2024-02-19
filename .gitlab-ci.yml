@@ -70,7 +70,9 @@ deploy:
   stage: deploy
   needs:
     - Docker
-  image: my-aws-kubectl-image
+  image: docker:24
+  services:
+    - docker:24-dind
   script: 
     - terraform apply -input=false "planfile"
     - aws eks update-kubeconfig --name my-eks --region us-east-1 --kubeconfig kubeconfig.yaml
