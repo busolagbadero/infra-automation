@@ -10,7 +10,7 @@ RUN apk --no-cache add \
     curl
 
 # Install AWS CLI
-RUN pip3 install --no-cache-dir --upgrade pip \
+RUN pip3 install --no-cache-dir --upgrade pip --break-system-packages \
     && pip3 install --no-cache-dir awscli --break-system-packages
 
 # Install kubectl
