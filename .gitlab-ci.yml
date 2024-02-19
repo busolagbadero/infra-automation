@@ -83,7 +83,7 @@ deploy:
     - docker:24-dind
   script: 
     - apk add --no-cache curl jq python3 py3-pip
-    - pip3 install awscli
+    - pip3 install awscli --break-system-packages
     - aws eks update-kubeconfig --name my-eks --region us-east-1 --kubeconfig kubeconfig.yaml
     - mkdir -p artifacts
     - cp kubeconfig.yaml artifacts/
