@@ -55,12 +55,16 @@ build:
       - planfile
 
 
+Docker:
+  stage: deploy
+  script:
+    - docker build -t my-aws-kubectl-image .
 
 deploy:
   stage: deploy
+  needs:
+    - Docker
   image: my-aws-kubectl-image
-  before_script:
-    docker build -t my-aws-kubectl-image .
   script: 
     - terraform apply -input=false "planfile"
     - aws eks update-kubeconfig --name my-eks --region us-east-1 --kubeconfig kubeconfig.yaml
