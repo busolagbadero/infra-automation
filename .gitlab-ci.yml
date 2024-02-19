@@ -61,26 +61,9 @@ deploy_terraform:
     - terraform apply -input=false "planfile"
 
 
-# Docker:
-#   stage: deploy
-#   needs:
-#     - deploy_terraform
-#   image: docker:24
-#   services:
-#     - docker:24-dind
-#   script:
-#     - docker build -t my-aws-kubectl-image .
-#   artifacts:
-#     paths:
-#       - dockerfile
 
 deploy:
   stage: deploy
-  # needs:
-  #   - Docker
-  # image: docker:24
-  # services:
-  #   - docker:24-dind
   script: 
     - apk add --no-cache curl jq python3 py3-pip
     - pip3 install awscli --break-system-packages
