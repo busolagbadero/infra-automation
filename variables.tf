@@ -1,11 +1,11 @@
-variable "aws_access_key_id" {
+variable "AWS_ACCESS_KEY_ID" {
   default = ""
 }
-variable "aws_secret_access_key" {
+variable "AWS_SECRET_ACCESS_KEY" {
   default = ""
 }
-variable "aws_region" {
-  default = "eu-west-3"
+variable "AWS_REGION" {
+  default = "us-east-1"
 }
 variable "env_prefix" {
   default = "dev"
