@@ -57,11 +57,11 @@ build:
 
 Docker:
   stage: deploy
-  image: docker:24
-  services:
-    - docker:24-dind
   script:
     - docker build -t my-aws-kubectl-image .
+  artifacts:
+    paths:
+      - dockerfile
 
 deploy:
   stage: deploy
