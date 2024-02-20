@@ -16,14 +16,14 @@ image:
 #   TF_VAR_env_prefix: "dev"
 #   TF_VAR_runner_registration_token: $runner_registration_token
 
-# init:
-#   stage: init
-#   script:
-#     - terraform init
-#   artifacts:
-#     paths:
-#       - .terraform/
-#       - .terraform.lock.hcl
+init:
+  stage: init
+  script:
+    - terraform init
+  artifacts:
+    paths:
+      - .terraform/
+      - .terraform.lock.hcl
 
 # validate:
 #   stage: test
