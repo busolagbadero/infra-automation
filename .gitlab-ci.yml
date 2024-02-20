@@ -4,79 +4,84 @@ stages:
   - build
   - deploy
 
-image:
-  name: hashicorp/terraform:latest
-  entrypoint: [""]
+# image:
+#   name: hashicorp/terraform:latest
+#   entrypoint: [""]
 
-variables:
-  AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
-  AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
-  AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
+# variables:
+#   AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
+#   AWS_SECRET_ACCESS_KEY: $AWS_SECRET_ACCESS_KEY
+#   AWS_DEFAULT_REGION: $AWS_DEFAULT_REGION
 
-  TF_VAR_env_prefix: "dev"
-  TF_VAR_runner_registration_token: $runner_registration_token
+#   TF_VAR_env_prefix: "dev"
+#   TF_VAR_runner_registration_token: $runner_registration_token
 
-init:
-  stage: init
-  script:
-    - terraform init
-  artifacts:
-    paths:
-      - .terraform/
-      - .terraform.lock.hcl
+# init:
+#   stage: init
+#   script:
+#     - terraform init
+#   artifacts:
+#     paths:
+#       - .terraform/
+#       - .terraform.lock.hcl
 
-validate:
-  stage: test
-  script:
-    - terraform validate
-  allow_failure: true
+# validate:
+#   stage: test
+#   script:
+#     - terraform validate
+#   allow_failure: true
 
-tfsec:
-  stage: test
-  needs:
-    - validate
-  image:
-    name: aquasec/tfsec:latest
-    entrypoint: [ "" ] 
-  script:
-    - tfsec . --format json --out tfsec.json  
-  allow_failure: true
-  artifacts:
-    when: always
-    paths:
-      - tfsec.json
+# tfsec:
+#   stage: test
+#   needs:
+#     - validate
+#   image:
+#     name: aquasec/tfsec:latest
+#     entrypoint: [ "" ] 
+#   script:
+#     - tfsec . --format json --out tfsec.json  
+#   allow_failure: true
+#   artifacts:
+#     when: always
+#     paths:
+#       - tfsec.json
 
-build:
-  stage: build
-  script:
-    - terraform plan -out "planfile"
-  artifacts:
-    paths:
-      - planfile
-
-
-deploy_terraform:
-  stage: deploy
-  script: 
-    - terraform apply -input=false "planfile"
-  when: manual
+# build:
+#   stage: build
+#   script:
+#     - terraform plan -out "planfile"
+#   artifacts:
+#     paths:
+#       - planfile
 
 
-deploy:
-  stage: deploy
-  needs: 
-    - deploy_terraform
-  script: 
-    - apk add --no-cache curl jq python3 py3-pip
-    - pip3 install awscli --break-system-packages
-    - aws eks update-kubeconfig --name my-eks --region us-east-1 --kubeconfig kubeconfigg.yaml
-    - mkdir -p artifacts
-    - cp kubeconfigg.yaml artifacts/
-  artifacts:
-    paths:
-      - artifacts/kubeconfigg.yaml
-  when: manual
+# deploy_terraform:
+#   stage: deploy
+#   script: 
+#     - terraform apply -input=false "planfile"
+#   when: manual
+
+
+# deploy:
+#   stage: deploy
+#   needs: 
+#     - deploy_terraform
+#   script: 
+#     - apk add --no-cache curl jq python3 py3-pip
+#     - pip3 install awscli --break-system-packages
+#     - aws eks update-kubeconfig --name my-eks --region us-east-1 --kubeconfig kubeconfigg.yaml
+#     - mkdir -p artifacts
+#     - cp kubeconfigg.yaml artifacts/
+#   artifacts:
+#     paths:
+#       - artifacts/kubeconfigg.yaml
+#   when: manual
 
   #
+
+deploy_t:
+    stage: deploy
+    script:
+      - terraform destroy --auto-approve
 
   
