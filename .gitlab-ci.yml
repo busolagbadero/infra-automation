@@ -59,7 +59,7 @@ deploy_terraform:
   stage: deploy
   script: 
     - terraform apply -input=false "planfile"
-
+  when: manual
 
 
 deploy:
