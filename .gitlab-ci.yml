@@ -77,4 +77,6 @@ deploy:
       - artifacts/kubeconfigg.yaml
   when: manual
 
+  #
+
   
