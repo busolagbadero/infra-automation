@@ -4,9 +4,9 @@ stages:
   - build
   - deploy
 
-# image:
-#   name: hashicorp/terraform:latest
-#   entrypoint: [""]
+image:
+  name: hashicorp/terraform:latest
+  entrypoint: [""]
 
 # variables:
 #   AWS_ACCESS_KEY_ID: $AWS_ACCESS_KEY_ID
