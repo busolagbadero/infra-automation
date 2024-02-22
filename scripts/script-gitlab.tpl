@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# wait 60 seconds until instance fully initialised - needed here so that gitlab-register command is successful
-sleep 60
+# wait 240 seconds until instance fully initialised - needed here so that gitlab-register command is successful
+sleep 240
 
 # update package repos
 sudo apt update

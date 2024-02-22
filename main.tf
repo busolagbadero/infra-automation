@@ -26,6 +26,9 @@ data "aws_iam_policy" "AmazonSSMFullAccess" {
   arn = "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
 }
 
+
+
+
 # create role for ec2 service for app-server
 # resource "aws_iam_role" "app-server-role" {
 #   name = "app-server-role"
@@ -165,29 +168,6 @@ resource "aws_security_group" "gitlab-server" {
     cidr_blocks = ["10.0.0.0/16"]
   }
 
-  ingress {
-    description = "Allow inbound from 0.0.0.0/0"
-    from_port   = 3000
-    to_port     = 3000
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    description = "Allow inbound from 0.0.0.0/0"
-    from_port   = 3001
-    to_port     = 3001
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    description = "Allow inbound from 0.0.0.0/0"
-    from_port   = 3002
-    to_port     = 3002
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
 
   egress {
     description = "Allow all outbound"
@@ -258,7 +238,7 @@ module "ec2_gitlab_runner" {
 
   root_block_device = [{
     volume_type           = "gp3"
-    volume_size           = 24
+    volume_size           = 16
     delete_on_termination = true
   }]
 }

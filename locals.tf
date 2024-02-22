@@ -1,7 +1,7 @@
-locals {
-  script = templatefile("${path.module}/scripts/script.tpl", {
-  })
-}
+# locals {
+#   script = templatefile("${path.module}/scripts/script.tpl", {
+#   })
+# }
 
 locals {
   script-gitlab = templatefile("${path.module}/scripts/script-gitlab.tpl", {
@@ -10,9 +10,9 @@ locals {
   })
 }
 
-output "script" {
-  value = local.script
-}
+# output "script" {
+#   value = local.script
+# }
 
 output "script-gitlab" {
   value = local.script-gitlab
