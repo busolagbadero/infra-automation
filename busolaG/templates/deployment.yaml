@@ -1,0 +1,25 @@
+# templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-busolag
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-busolag
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}-busolag
+    spec:
+      containers:
+      - name: busolag
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        ports:
+        - containerPort: {{ .Values.containerPort }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+      imagePullSecrets:
+      - name: {{ .Values.image.pullSecret }}
+

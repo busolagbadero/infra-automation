@@ -1,0 +1,10 @@
+replicaCount: 2
+image:
+  repository: 905418345186.dkr.ecr.us-east-1.amazonaws.com/busolag-app
+  tag: latest
+  pullPolicy: Always
+  pullSecret: busolaG-secret
+containerPort: 3002
+servicePort: 3002
+targetPort: 3002
+namespace: busolag
