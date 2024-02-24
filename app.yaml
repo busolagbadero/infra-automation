@@ -1,0 +1,17 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: helm-charts-app
+spec:
+  project: default
+  source:
+    repoURL: ' https://github.com/busolagbadero/infra-automation.git' # Replace with your Helm charts repository URL
+    path: 'busolaG' # Replace with the path to your Helm charts inside the Git repository
+    targetRevision: 'HEAD' # Replace with the desired Git revision (branch, tag, or commit hash)
+  destination:
+    server: 'https://kubernetes.default.svc' # Replace with your Kubernetes API server URL
+    namespace: 'my-namespace' # Replace with your target namespace
+  
+  syncPolicy:
+    automated:
+      prune: true
