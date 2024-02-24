@@ -17,4 +17,4 @@ spec:
       selfHeal: true
   helm:
     valueFiles:
-      - 
+      - /home/ubuntu/infra-automation/busolaG/charts/values-dev.yaml

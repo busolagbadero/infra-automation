@@ -23,3 +23,18 @@ spec:
       imagePullSecrets:
       - name: {{ .Values.image.pullSecret }}
 
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-busolag-service
+spec:
+  selector:
+    app: {{ .Release.Name }}-busolag
+  ports:
+  - port: {{ .Values.servicePort }}
+    protocol: TCP
+    targetPort: {{ .Values.targetPort }}
+
