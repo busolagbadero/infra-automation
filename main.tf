@@ -29,43 +29,7 @@ data "aws_iam_policy" "AmazonSSMFullAccess" {
 
 
 
-# create role for ec2 service for app-server
-# resource "aws_iam_role" "app-server-role" {
-#   name = "app-server-role"
 
-#   assume_role_policy = <<EOF
-# {
-#   "Version": "2012-10-17",
-#   "Statement": [
-#     {
-#       "Action": "sts:AssumeRole",
-#       "Principal": {
-#         "Service": "ec2.amazonaws.com"
-#       },
-#       "Effect": "Allow",
-#       "Sid": ""
-#     }
-#   ]
-# }
-# EOF
-# }
-
-# attach the needed policies to the created ec2 role
-# resource "aws_iam_role_policy_attachment" "policy-attach-ssm" {
-#   role       = aws_iam_role.app-server-role.name
-#   policy_arn = data.aws_iam_policy.AmazonSSMManagedInstanceCore.arn
-# }
-
-# resource "aws_iam_role_policy_attachment" "policy-attach-ecr-full" {
-#   role       = aws_iam_role.app-server-role.name
-#   policy_arn = data.aws_iam_policy.AmazonEC2ContainerRegistryFullAccess.arn
-# }
-
-# # define instance profile, so we can assign the role to our ec2 instance
-# resource "aws_iam_instance_profile" "app-server-role" {
-#   name = "app-server-role"
-#   role = aws_iam_role.app-server-role.name
-# }
 
 # create role for ec2 service for gitlab-runner-server
 resource "aws_iam_role" "gitlab-runner-role" {
@@ -182,37 +146,9 @@ resource "aws_security_group" "gitlab-server" {
   }
 }
 
-######## CREATE EC2 SERVERS ########
+######## CREATE EC2 SERVER ########
 
-# module "ec2_app_server" {
-#   depends_on = [aws_security_group.app-server]
-#   # TF module that creates EC2 instances: https://registry.terraform.io/modules/terraform-aws-modules/ec2-instance/aws/1.0.4             
-#   source     = "terraform-aws-modules/ec2-instance/aws"
-#   version    = "5.2.1"
 
-#   name = "app-server"
-
-#   instance_type               = "t3.small"
-#   availability_zone           = element(data.aws_availability_zones.available.names, 0) # get first az from available zones
-#   ami                         = data.aws_ami.ubuntu.id
-#   iam_instance_profile        = data.aws_iam_instance_profile.app-server-role.name
-#   associate_public_ip_address = true
-#   vpc_security_group_ids      = [aws_security_group.app-server.id]
-#   subnet_id                   = module.vpc.public_subnets[0]
-#   user_data                   = base64encode(local.script)
-
-#   tags = {
-#     Terraform   = "true"
-#     Environment = var.env_prefix
-#     Name        = "app-server"
-#   }
-
-#   root_block_device = [{
-#     volume_type           = "gp3"
-#     volume_size           = 16
-#     delete_on_termination = true
-#   }]
-# }
 
 module "ec2_gitlab_runner" {
   depends_on = [aws_security_group.gitlab-server]
