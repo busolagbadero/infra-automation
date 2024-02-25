@@ -16,20 +16,8 @@ data "aws_security_group" "main" {
   }
 }
 
-# data "aws_security_group" "app-server" {
-#   depends_on = [aws_security_group.app-server]
-#   vpc_id     = data.aws_vpc.main.id
 
-#   filter {
-#     name   = "tag:Name"
-#     values = ["app-server"]
-#   }
-# }
 
-# data "aws_iam_instance_profile" "app-server-role" {
-#   depends_on = [aws_iam_instance_profile.app-server-role]
-#   name       = "app-server-role"
-# }
 
 data "aws_iam_instance_profile" "gitlab-runner-role" {
   depends_on = [aws_iam_instance_profile.gitlab-runner-role]
